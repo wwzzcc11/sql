@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gdpu.mybatisdemo.dao.OrderMapper">
+    <select id="queryOrderWithProducts" resultMap="queryOrderWithProducts">
+        select o.*,p.id pid,p.name,p.price
+        from tx_order o,tx_product p,tx_op op
+        where o.id=op.order_id and op.product_id=p.id
+        and o.id=#{id}
+    </select>
+
+    <resultMap id="queryOrderWithProducts" type="order">
+        <id property="id" column="id"></id>
+        <result property="number" column="number"/>
+        <collection property="products" ofType="product">
+            <id property="id" column="pid"/>
+            <result property="name" column="name"/>
+            <result property="price" column="price"/>
+        </collection>
+    </resultMap>
+
+</mapper>

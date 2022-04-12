@@ -1,0 +1,4 @@
+# Project exclude paths
+/dynamic_sql/target/
+/MoreToMore/target/
+/OneToMore/target/

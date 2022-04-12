@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gdpu.mybatisdemo.dao.UserMapper">
+<!--    组合选择-->
+<select id="queryUsersByCondition" resultType="user" parameterType="user">
+    select * from user
+    <where>
+        <if test="id != 0">
+            and id=#{id}
+        </if>
+        <if test='name != null and name != " "'>
+            and `name`=#{name}
+        </if>
+        <if test="age != 0">
+            and age=#{age}
+        </if>
+        <if test='job != null and job !=" "'>
+            and  job=#{job}
+        </if>
+        <if test="salary != 0">
+            and salary>#{salary}
+        </if>
+    </where>
+</select>
+<!--    <select id="queryUsersByCondition" resultType="user" parameterType="user">-->
+<!--        select * from user-->
+<!--        <where>-->
+<!--            <choose>-->
+<!--                <when test="id != 0">-->
+<!--                    id=#{id}-->
+<!--                </when>-->
+<!--                <when test='name != null and name !=" "'>-->
+<!--                    `name`=#{name}-->
+<!--                </when>-->
+<!--                <when test="age != 0">-->
+<!--                    age=#{age}-->
+<!--                </when>-->
+<!--                <when test='job != null and job !=" "'>-->
+<!--                    job=#{job}-->
+<!--                </when>-->
+<!--                <when test="salary != 0">-->
+<!--                    salary=#{salary}-->
+<!--                </when>-->
+<!--                <otherwise>-->
+<!--                    job='doctor'-->
+<!--                </otherwise>-->
+<!--            </choose>-->
+<!--        </where>-->
+<!--    </select>-->
+
+<update id="updateUser" parameterType="user">
+    update user
+    <set>
+        <if test='name != null and name !=" "'>
+            `name`=#{name},
+        </if>
+        <if test="age != 0">
+            age=#{age},
+        </if>
+        <if test='job != null and job !=" "'>
+            job=#{job},
+        </if>
+        <if test="salary != 0">
+            salary=#{salary}
+        </if>
+    </set>
+       where id=#{id}
+</update>
+<select id="queryUsersByIds" resultType="user">
+    select * from user where id in
+    <foreach collection="list" item="uid" open="(" close=")" separator=",">
+        #{uid}
+    </foreach>
+</select>
+</mapper>

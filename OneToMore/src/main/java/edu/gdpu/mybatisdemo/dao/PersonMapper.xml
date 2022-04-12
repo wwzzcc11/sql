@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.gdpu.mybatisdemo.dao.PersonMapper">
+    <select id="queryPersonById" resultType="person">
+        select * from person where id=#{id}
+    </select>
+    <select id="queryPersonWithCards" resultMap="queryPersonResult">
+        select p.* ,c.id as cid,c.number
+        from person p,card c
+        where p.id=c.ownerid
+        and p.id=#{id}
+    </select>
+    <resultMap id="queryPersonResult" type="person">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <collection property="cards" ofType="card">
+            <id property="id" column="cid"/>
+            <result property="number" column="number"/>
+        </collection>
+    </resultMap>
+
+</mapper>
